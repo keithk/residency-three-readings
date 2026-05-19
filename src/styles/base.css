@@ -1,0 +1,40 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-feature-settings: "kern", "liga", "calt", "onum";
+  font-optical-sizing: auto;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100dvh;
+  background-image:
+    radial-gradient(1200px 600px at 100% -10%, oklch(0.92 0.025 75) 0%, transparent 60%),
+    radial-gradient(800px 500px at -10% 110%, oklch(0.92 0.018 75) 0%, transparent 55%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--stamp-fade);
+  color: var(--ink);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
