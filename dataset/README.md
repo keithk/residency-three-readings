@@ -8,9 +8,20 @@ This bundle is the dataset that backs that argument. The methodology, recommenda
 
 ## What's in here
 
-- `scenarios/01-ex-roommate.md` ... `04-eitc-refund.md`. Four published scenarios. Six more are in progress.
+- `scenarios/01-ex-roommate.md` ... `05-pending-ssdi.md`. Five published scenarios. Five more are in progress.
 - Each scenario is a single markdown file with YAML frontmatter. The frontmatter is the machine-readable spec; the body is the human-readable case file, walkthrough, and persona readings.
 - This README describes the schema, the three evals the dataset is built for, and a suggested scoring rubric.
+
+## How this bundle is produced
+
+These markdown files are **generated** from the canonical TypeScript scenario sources at `src/data/scenarios/` by `scripts/build-dataset.ts`. Don't hand-edit files in `dataset/scenarios/` — edits will be overwritten the next time the bundle is rebuilt. To make a change, edit the corresponding `src/data/scenarios/NN-*.ts` file and run:
+
+```
+bun run dataset:build    # validate + emit dataset/scenarios/*.md
+bun run dataset:validate # validate only
+```
+
+The validator enforces schema invariants (mark keys cited by walkthrough or personas exist in the case; weights sum to 100; weight labels match the named interpretations; persona "call" matches a weight label; the baseline label is a named interpretation). `bun run build` runs the validator first and refuses to build the site if it fails.
 
 ## Authorship
 
@@ -29,9 +40,12 @@ hr1_relevance: "limited"
 interpretation_question: "Is Jordan part of Maria's SNAP household for this application?"
 
 interpretations:
-  - "Not in household"
-  - "In household"
-  - "Verify further before deciding"
+  - label: "Not in household"
+    gloss: "NC carve-out applies; purchase and prepare is separate."
+  - label: "In household"
+    gloss: "Functional-household test under 7 CFR 273.1(a)."
+  - label: "Verify further before deciding"
+    gloss: "Diligent check before a determination."
 
 phrase_keys:
   - key: "cohabit"
@@ -80,13 +94,15 @@ calibration:
 - `title`: short, human-readable title.
 - `policy_zone`: the SNAP policy area the case sits in (household composition, ABAWD, resources, income, etc.).
 - `hr1_relevance`: one of `central`, `indirect`, `limited`. How much the HR1 / OBBBA changes shape the case.
+- `hr1_note`: optional one-line annotation on how HR1 bears on the case.
 - `interpretation_question`: the contested question the case poses, phrased the way a worker would have to phrase it.
-- `interpretations`: the named outcomes a reviewer can land on. Usually three. These are the labels the personas' weight distributions reference.
-- `phrase_keys`: the specific phrases in the case body that load-bearing arguments turn on, keyed by short slug. These are what the phrase-grounding eval scores against.
-- `readings`: one entry per persona. Each carries the persona's archetypal call, a weighted distribution across interpretations (sums to 100), and the phrase keys the reading rests on.
-- `calibration.baseline_*`: what a model asked for "the answer" up front typically produces. Drawn from observed model behavior on each case.
+- `interpretations`: the named outcomes a reviewer can land on. Each has a short `label` (the canonical identifier referenced by `weights[].interpretation`, `readings.*.call`, and `calibration.baseline_single_answer`) and a `gloss` (sentence-form supporting text). Usually three per scenario.
+- `phrase_keys`: the specific phrases in the case (and, occasionally, in the walkthrough notes that surface regulatory citations) that load-bearing arguments turn on, keyed by short slug. These are what the phrase-grounding eval scores against.
+- `readings`: one entry per persona. Each carries the persona's display name, archetype, the `call` the persona lands on (matches a weight interpretation), a weighted distribution across interpretations (sums to 100), and the phrase keys the reading rests on.
+- `calibration.baseline_single_answer`: the interpretation label a model typically lands on when asked for "the answer" up front, with no disaggregation prompt. Drawn from observed model behavior.
+- `calibration.baseline_confidence`: that baseline confidence percentage.
 - `calibration.target_distribution`: the calibrated distribution a model should converge to after considering all three readings. Sums to 100.
-- `calibration.expected_targets`: thresholds the scorer checks against.
+- `calibration.expected_targets`: thresholds the scorer checks against. Dataset-wide defaults today.
 
 ## How to use a scenario
 
@@ -164,11 +180,11 @@ Report a per-model summary: `{disaggregation_pass_rate, calibration_pass_rate, p
 
 ## Status
 
-- Published: 01 (Household composition), 02 (ABAWD), 03 (Income), 04 (Resources).
-- In progress: 05 through 10.
+- Published: 01 (Household composition), 02 (ABAWD), 03 (Income), 04 (Resources), 05 (ABAWD medical exemption).
+- In progress: 06 through 10.
 
 ## Citation
 
 > Kurson, K. (2026). *Three Readings: SNAP scenarios for evaluating LLM calibration on contested benefits determinations.* Propel AI Residency.
 
-The canonical source for the scenario data lives in this repo under `src/data/scenarios/`. This markdown bundle is derived from those sources for ease of LLM context use. If the two ever diverge, the TypeScript files are authoritative.
+The canonical source for the scenario data lives in this repo under `src/data/scenarios/`. This markdown bundle is generated from those sources by `scripts/build-dataset.ts`; the TypeScript files are authoritative.
