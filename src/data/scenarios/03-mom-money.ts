@@ -56,6 +56,7 @@ export const scenario03: Scenario = {
       name: "The advocate",
       emphasis: "Pushes toward eligibility.",
       reading: `Lands on the <em>loan exclusion</em>. The text of 273.9(c)(4) is broad and contains no documentary requirement. The Pennsylvania manual's affidavit provision is permissive ("may require"), not a precondition. Mom's statement reads in context as willingness to forgive a debt, not as a declaration that no debt ever existed. Failing that, the funds function as a vendor payment in substance even if not in form. Ambiguity resolves toward eligibility.`,
+      call: "Excluded as a loan or vendor payment",
       pulls: [
         {
           key: "no-note",
@@ -81,6 +82,7 @@ export const scenario03: Scenario = {
       name: "The careful processor",
       emphasis: "Verifies before deciding.",
       reading: `Lands on <em>countable</em>. The mother's statement on the phone is the operative fact: under PA's bona-fide-loan framework, no repayment obligation means no loan. It is also not a vendor payment under §550.56 because funds didn't go to a creditor. The default posture under QC-asymmetric pressure is countable unless verification flips it. If Tasha submits a signed loan statement within ten days, exclude; if not, count and deny.`,
+      call: "Countable as unearned income",
       pulls: [
         {
           key: "mom-says",
@@ -106,6 +108,7 @@ export const scenario03: Scenario = {
       name: "The institution",
       emphasis: "Holds federal compliance, cross-worker consistency, audit posture.",
       reading: `Sits on a <em>precedent gap</em>. The state has no formal guidance on peer-to-peer cash apps. §550.3 and §550.57 predate Venmo by two decades, and one worker excluding on the household's word while another counts is the worst possible posture for cross-worker consistency. Pennsylvania's 10.76% FY2024 payment error rate already places the state in the maximum benefit cost-share tier under OBBBA §10105. An Operations Memorandum is coming, almost certainly toward counting recurring P2P transfers absent contemporaneous written loan documentation.`,
+      call: "Countable as unearned income",
       pulls: [
         {
           key: "venmo",
@@ -128,11 +131,12 @@ export const scenario03: Scenario = {
     },
   },
   interpretations: [
-    "Countable as unearned income under the 273.9(b)(2) catch-all.",
-    "Excluded as a private loan or vendor payment in substance.",
-    "Pend and verify; require a signed statement from the mother.",
+    { label: "Countable as unearned income", gloss: "Under the 273.9(b)(2) catch-all for regular, anticipated transfers." },
+    { label: "Excluded as a loan or vendor payment", gloss: "Private loan or vendor payment in substance, regardless of form." },
+    { label: "Pend and verify", gloss: "Require a signed statement from the mother before deciding." },
   ],
   confidence: {
+    baselineLabel: "Countable as unearned income",
     beforeHeadline: "<em>Countable</em> as unearned income",
     beforeStat: "81",
     beforeStatSuffix: "% confident",

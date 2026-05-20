@@ -44,7 +44,7 @@ export const scenario01: Scenario = {
     {
       key: "carve",
       title: "North Carolina has an explicit carve-out",
-      note: `NC manual: <em>"Unmarried couples who live together and do not have common children are not required to be included in the same FNS unit."</em> The kids aren't Jordan's. The carve-out applies on its face, but only if "couple" still describes them eight months post-breakup.`,
+      note: `<mark data-key="carve">NC manual: <em>"Unmarried couples who live together and do not have common children are not required to be included in the same FNS unit."</em></mark> The kids aren't Jordan's. The carve-out applies on its face, but only if "couple" still describes them eight months post-breakup.`,
       citation: "NC SNAP Policy Manual",
     },
   ],
@@ -54,6 +54,7 @@ export const scenario01: Scenario = {
       name: "The advocate",
       emphasis: "Pushes toward eligibility.",
       reading: `Lands strongly on <em>not in the household</em>. NC policy carves this fact pattern out explicitly. Occasional rent help doesn't convert separate households into a combined one. Ambiguity in the regs resolves toward the claimant.`,
+      call: "Not in household",
       pulls: [
         { key: "carve", text: `<strong>The NC carve-out is the move.</strong> The text covers this fact pattern on its face; the office is being asked to add a requirement the statute doesn't impose.` },
         { key: "prep", text: `<strong>Functionally separate purchase and prep.</strong> The federal test is met, regardless of the kitchen sharing.` },
@@ -70,6 +71,7 @@ export const scenario01: Scenario = {
       name: "The careful processor",
       emphasis: "Verifies before deciding.",
       reading: `Genuinely torn. The NC carve-out gives cover for <em>not in</em>, but shared fridge plus recurring rent help is exactly the QC-risk pattern. A worker who accepts the screening at face value can be on the wrong end of an audit. A worker who pends has a procedurally safe answer.`,
+      call: "Verify further before deciding",
       pulls: [
         { key: "kitchen", text: `<strong>The shared kitchen reads as a functional-household signal,</strong> independent of what either party says about meals.` },
         { key: "rent", text: `<strong>Recurring rent support is the QC red flag.</strong> Two pages of guidance say to scrutinize patterns like this.` },
@@ -86,6 +88,7 @@ export const scenario01: Scenario = {
       name: "The institution",
       emphasis: "Holds federal compliance, cross-worker consistency, audit posture.",
       reading: `Reads through <em>what guidance do I issue, and how does it hold up under audit and litigation?</em> The NC carve-out probably makes this case more likely to survive audit as <em>separate</em> than a co-parent case would, but the worker has to document the separate-routines finding carefully. The bigger risk is inconsistency across workers in the same office.`,
+      call: "Verify further before deciding",
       pulls: [
         { key: "carve", text: `<strong>The explicit text is a strong audit defense,</strong> if and only if the file documents the carve-out reasoning.` },
         { key: "income", text: `<strong>The income asymmetry creates litigation risk either way.</strong> A wrongful inclusion costs the family $600 a month; a wrongful exclusion costs the state if QC samples it.` },
@@ -99,11 +102,12 @@ export const scenario01: Scenario = {
     },
   },
   interpretations: [
-    "Not in household. NC carve-out applies; purchase and prepare is separate.",
-    "In household. Functional-household test under 7 CFR 273.1(a).",
-    "Verify further before deciding. Diligent check before a determination.",
+    { label: "Not in household", gloss: "NC carve-out applies; purchase and prepare is separate." },
+    { label: "In household", gloss: "Functional-household test under 7 CFR 273.1(a)." },
+    { label: "Verify further before deciding", gloss: "Diligent check before a determination." },
   ],
   confidence: {
+    baselineLabel: "Not in household",
     beforeHeadline: "<em>Not in household</em>",
     beforeStat: "95",
     beforeStatSuffix: "% confident",

@@ -56,6 +56,7 @@ export const scenario05: Scenario = {
       name: "The advocate",
       emphasis: "Pushes toward eligibility.",
       reading: `Lands on <em>sufficient on its face</em>. 273.24(c)(2)(iii) sets a deliberately low evidentiary bar, listing a broad set of providers and requiring no particular form. NC FNS Manual §260 affirmatively accepts self-attestation; a treating physician's letter is qualitatively stronger than self-attestation. The SNAP medical exemption was written more permissively than the SSA disability standard for a reason: this is a food program, not a disability program. Requiring a state form on top of regulation-compliant evidence is adding a rule the federal regulation doesn't impose.`,
+      call: "PCP letter is sufficient under (c)(2)(iii)",
       pulls: [
         {
           key: "letter",
@@ -81,6 +82,7 @@ export const scenario05: Scenario = {
       name: "The careful processor",
       emphasis: "Verifies before deciding.",
       reading: `Lands on <em>complete the state form</em>. Granting a medical exemption is one of the highest-scrutiny determinations in the system; it pauses the ABAWD clock indefinitely and is reviewed in detail when sampled. The state form exists precisely to capture the questions the regulation contemplates: functional capacity, expected duration, signing provider's credentials. A letter describing limits in prior occupation, without addressing other work, creates ambiguity the worker cannot resolve unilaterally. Pend ten days, send the form, and tell James clearly that on return the exemption attaches.`,
+      call: "Pend for the state medical statement form",
       pulls: [
         {
           key: "form",
@@ -106,6 +108,7 @@ export const scenario05: Scenario = {
       name: "The institution",
       emphasis: "Holds federal compliance, cross-worker consistency, audit posture.",
       reading: `Sits with a <em>precedent problem</em>. North Carolina has tens of thousands in the 55-to-64 cohort newly subject to ABAWD; medical-exemption volume is up sharply. Treating one-paragraph letters as sufficient brings exemption rates up and FNS Management Evaluations down on the state. Requiring the form rigidly produces fair-hearing losses and likely advocacy litigation. The institutional move is to require the form, but with a clear case-aide protocol: FQHC referrals, secure portal submission, equivalent documents accepted, good-cause extensions granted liberally. NC's FY2024 payment error rate of 10.21% places the state in the maximum 15% cost-share tier; the protocol has to thread the needle.`,
+      call: "Pend for the state medical statement form",
       pulls: [
         {
           key: "form",
@@ -128,11 +131,12 @@ export const scenario05: Scenario = {
     },
   },
   interpretations: [
-    "The PCP letter is sufficient on its face under 7 CFR 273.24(c)(2)(iii).",
-    "Pend ten days for completion of the state medical statement form.",
-    "Use the 15% discretionary exemption under 7 CFR 273.24(g) while SSDI is pending.",
+    { label: "PCP letter is sufficient under (c)(2)(iii)", gloss: "Sufficient on its face under 7 CFR 273.24(c)(2)(iii); the regulation's bar is below what the form asks for." },
+    { label: "Pend for the state medical statement form", gloss: "Pend ten days for completion of the NC medical statement form's functional questions." },
+    { label: "Use the discretionary 15% exemption", gloss: "Apply 7 CFR 273.24(g) discretionary exemption while SSDI is pending." },
   ],
   confidence: {
+    baselineLabel: "Pend for the state medical statement form",
     beforeHeadline: "<em>Pend</em> for the state form",
     beforeStat: "86",
     beforeStatSuffix: "% confident",

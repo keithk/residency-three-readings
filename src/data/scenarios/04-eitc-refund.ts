@@ -55,6 +55,7 @@ export const scenario04: Scenario = {
       name: "The advocate",
       emphasis: "Pushes toward eligibility.",
       reading: `Lands on <em>fully exempt</em>. 26 USC 6409 is categorical and contains its own preemption clause: <em>notwithstanding any other provision of law</em>. The regulation at 273.8(g) cannot be applied to nullify the twelve-month exclusion the statute creates. FNS's 2011 implementation memorandum operationalized this with a subtraction method, not a tracing method: subtract refund received in the last twelve months from current resources. Documented spend-down comes first-in-first-out from countable funds. Roughly $3,000 of refund money is still inside the account, fully shielded. Closure is reversible at fair hearing.`,
+      call: "Fully exempt under 6409",
       pulls: [
         {
           key: "refund",
@@ -80,6 +81,7 @@ export const scenario04: Scenario = {
       name: "The careful processor",
       emphasis: "Verifies before deciding.",
       reading: `Lands on <em>commingled and countable</em>. QC reviewers don't apply preemption analysis; they apply FNS Handbook 310. The regulatory mechanism for honoring excluded funds in a mixed account is 273.8(g)'s six-month rule, which Tennessee has not displaced. Eight months in, the rule is dispositive. Verification (IRS transcript, statements) gets requested, but the default posture is closure absent documentation that flips a tracing analysis. Excluding $4,910 on a generous theory and being wrong produces a sampled over-issuance error at full dollar value under OBBBA's new tolerance.`,
+      call: "Commingled and countable after six months",
       pulls: [
         {
           key: "commingled",
@@ -105,6 +107,7 @@ export const scenario04: Scenario = {
       name: "The institution",
       emphasis: "Holds federal compliance, cross-worker consistency, audit posture.",
       reading: `Sits on a <em>state-level policy gap</em>. Tennessee has not issued guidance reconciling 6409 with the six-month commingling rule. The director's real choice is across thousands of similar cases, not this one. Honor the twelve-month exclusion via subtraction and the state is exposed if QC reviewers apply Handbook 310's commingling framework. Apply the six-month cutoff and the state takes fair-hearing losses and bad headlines. Require tracing in every sampled case and administrative cost balloons. The likely posture: pend, request the FNS Southeast Regional Office for an implementation memo, and instruct workers to verify rather than auto-close.`,
+      call: "Trace via lowest intermediate balance",
       pulls: [
         {
           key: "refund",
@@ -127,11 +130,12 @@ export const scenario04: Scenario = {
     },
   },
   interpretations: [
-    "Fully exempt; 26 USC 6409 preempts the commingling rule.",
-    "Commingled and countable after six months under 7 CFR 273.8(g).",
-    "Trace via lowest intermediate balance; pend for IRS transcript and statements.",
+    { label: "Fully exempt under 6409", gloss: "26 USC 6409's preemption clause overrides the 273.8(g) commingling rule." },
+    { label: "Commingled and countable after six months", gloss: "Past the 273.8(g) six-month cutoff, the exemption lapses." },
+    { label: "Trace via lowest intermediate balance", gloss: "Pend for IRS transcript and statements to compute the shielded portion." },
   ],
   confidence: {
+    baselineLabel: "Commingled and countable after six months",
     beforeHeadline: "<em>Commingled</em> and countable",
     beforeStat: "84",
     beforeStatSuffix: "% confident",

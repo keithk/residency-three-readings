@@ -39,12 +39,23 @@ export interface PersonaReading {
   emphasis: string;
   /** HTML allowed. The persona's full reading of the case. */
   reading: string;
+  /** The headline interpretation this persona lands on. Must match one of the weights[].label values. */
+  call: string;
   pulls: PersonaPull[];
   weights: PersonaWeight[];
 }
 
+export interface Interpretation {
+  /** Short label used across weights, persona.call, and confidence.afterDist. Must match exactly. */
+  label: string;
+  /** Sentence-form supporting text. The "why this reading is named what it is" gloss. */
+  gloss: string;
+}
+
 export interface ConfidenceData {
-  /** Headline shown above the big number. HTML allowed. */
+  /** The semantic baseline answer; must match one of the interpretation labels. */
+  baselineLabel: string;
+  /** Headline shown above the big number. HTML allowed; display only. */
   beforeHeadline: string;
   /** Big stat shown alone. Usually just the number, e.g. "95%". */
   beforeStat: string;
@@ -75,6 +86,6 @@ export interface Scenario {
   facts?: string[];
   walkthrough?: WalkthroughStep[];
   personas?: Record<PersonaId, PersonaReading>;
-  interpretations?: string[];
+  interpretations?: Interpretation[];
   confidence?: ConfidenceData;
 }

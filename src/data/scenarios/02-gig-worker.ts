@@ -46,6 +46,7 @@ export const scenario02: Scenario = {
       name: "The advocate",
       emphasis: "Pushes toward eligibility.",
       reading: `Lands on <em>hours are verified</em>, or failing that, on <em>pend with a specific, documented request</em>. Denying a gig worker for not having data the platform doesn't produce by default is a systemic failure the state imposed, not a compliance failure the claimant created.`,
+      call: "Hours are verified",
       pulls: [
         { key: "docs", text: `<strong>The documentation gap is the platform's design choice,</strong> not Marcus's. He can't surface what they don't produce.` },
         { key: "notebook", text: `<strong>Contemporaneous personal logs are accepted</strong> for informal labor, domestic work, self-employment. ABAWD shouldn't apply a stricter test.` },
@@ -61,6 +62,7 @@ export const scenario02: Scenario = {
       name: "The careful processor",
       emphasis: "Verifies before deciding.",
       reading: `Pulled toward <em>not verified</em>. ABAWD determinations are among the most audited work-requirement categories. After November 2025, accepting the notebook is procedurally exposed. Pending the case is the safe move.`,
+      call: "Hours are not verified",
       pulls: [
         { key: "notebook", text: `<strong>A claimant-produced estimate is not verification</strong> by the standard the manual applies to other earned-income documentation.` },
         { key: "hr1", text: `<strong>QC sampling on the expanded population now counts.</strong> A wrong call costs the state under the new error-rate exposure.` },
@@ -76,6 +78,7 @@ export const scenario02: Scenario = {
       name: "The institution",
       emphasis: "Holds federal compliance, cross-worker consistency, audit posture.",
       reading: `Most state manuals don't address platform gig work for ABAWD verification, because the chapters were written for pre-platform independent contractor work. <em>Cross-worker consistency</em> is the dominant concern. Director likely issues standing guidance to require platform-sourced activity reports, which compresses to pending in practice and which advocacy will call a soft denial.`,
+      call: "Pend with specific request",
       pulls: [
         { key: "docs", text: `<strong>State guidance is silent on gig hour verification.</strong> The director's call here becomes office precedent.` },
         { key: "hr1", text: `<strong>Cost-sharing exposure starts FY2028.</strong> Permissive guidance now compounds across thousands of similar cases.` },
@@ -88,11 +91,12 @@ export const scenario02: Scenario = {
     },
   },
   interpretations: [
-    "Hours are verified. Notebook plus earnings meets evidentiary threshold.",
-    "Hours are not verified. Earnings are not hours; deny or pend.",
-    "Pend with a specific documented request for platform activity reports.",
+    { label: "Hours are verified", gloss: "Notebook plus earnings meets the evidentiary threshold." },
+    { label: "Hours are not verified", gloss: "Earnings are not hours; deny or pend." },
+    { label: "Pend with specific request", gloss: "A documented request for platform activity reports before deciding." },
   ],
   confidence: {
+    baselineLabel: "Pend with specific request",
     beforeHeadline: "<em>Pend</em>, with high confidence",
     beforeStat: "88",
     beforeStatSuffix: "% confident",
