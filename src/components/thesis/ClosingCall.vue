@@ -18,7 +18,7 @@ import { DATASET_URL } from "@/data/links";
     </a>
 
     <p class="punchline">
-      The right answer to a contested question is not one answer. <em>It is the argument.</em>
+      AI eligibility tools always give a single confident answer. The cases that matter most don't have one.
     </p>
   </section>
 </template>
@@ -49,19 +49,13 @@ import { DATASET_URL } from "@/data/links";
 
 .punchline {
   font-family: var(--serif);
-  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  letter-spacing: -0.005em;
+  font-weight: 380;
   color: var(--ink);
   margin: 0;
-  max-width: 28ch;
-}
-
-.punchline em {
-  font-style: italic;
-  color: var(--stamp);
-  font-weight: 400;
+  max-width: 70ch;
 }
 
 .dataset-link {

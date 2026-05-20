@@ -19,11 +19,11 @@ watch(
   () => [route.value, scenario.value?.title] as const,
   ([r, title]) => {
     if (r.view === "scenario" && title) {
-      document.title = `${scenario.value!.id}. ${title}, The Disagreement Dataset`;
+      document.title = `${scenario.value!.id}. ${title}, Three Readings`;
     } else if (r.view === "thesis") {
-      document.title = "The argument, The Disagreement Dataset";
+      document.title = "The brief, Three Readings";
     } else {
-      document.title = "The Disagreement Dataset, Propel AI Residency";
+      document.title = "Three Readings, Propel AI Residency";
     }
   },
   { immediate: true },

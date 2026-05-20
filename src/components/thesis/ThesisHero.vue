@@ -14,16 +14,16 @@ function backToIndex(event: MouseEvent) {
     <a class="kicker" href="#/" @click="backToIndex">
       <span class="micro">Keith Kurson, Propel AI Residency</span>
       <span class="kicker-sep" aria-hidden="true">·</span>
-      <span class="micro">The argument</span>
+      <span class="micro">The brief</span>
       <span class="kicker-sep" aria-hidden="true">·</span>
       <span class="micro">2026</span>
     </a>
     <h1 class="display-l title">
       What to <em>do</em><br />
-      with the disagreement.
+      with three readings.
     </h1>
     <p class="lede">
-      A brief for governments procuring or building LLMs that will touch benefits-eligibility decisions. The dataset is the evidence. This page is the argument and the recommendations: what to require in procurement, what to evaluate, and what not to fine-tune away.
+      A brief for governments procuring or building LLMs that will touch benefits-eligibility decisions. The dataset bundles the cases. This page lays out the methodology and the recommendations: what to require in procurement, what to evaluate, and what not to fine-tune away. Aimed at back-end systems, not at the people whose benefits are at stake.
     </p>
   </div>
 </template>

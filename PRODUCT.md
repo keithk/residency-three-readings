@@ -1,4 +1,4 @@
-# The Disagreement Dataset, a web artifact
+# Three Readings, a web artifact
 
 A Propel research artifact. The dataset captures SNAP scenarios where three personas (a legal aid attorney, an eligibility worker, and a SNAP director) read the same case three different ways. The point: confidence scores collapse contested interpretation into a single number, and when the stakes are whether someone eats next month, "95% sure" should mean something.
 
@@ -76,7 +76,7 @@ Working-against-fatigue choices are load-bearing here, not optional:
 - Scenario walkthrough is operable via arrow keys (←/→) and Escape; mouse and keyboard reach parity.
 - Focus must be visible (default browser ring or a deliberate equivalent). Never `outline: none` without a visible replacement.
 - Screen reader names: the persona panel weight table should expose its rows as a labeled list or table; case-file marks should announce `mark` semantics without the data-attributes leaking as text.
-- Page titles update per scenario (`01. The ex-roommate on the lease, The Disagreement Dataset`) so SR users orienting by title can navigate.
+- Page titles update per scenario (`01. The ex-roommate on the lease, Three Readings`) so SR users orienting by title can navigate.
 
 ### Content sensitivity
 

@@ -18,7 +18,7 @@ function openThesis(event: MouseEvent) {
       The dataset captures the cases where the personas land differently. The eval harness scores LLMs on whether they surface that disagreement, characterize each reading, and calibrate confidence to the actual consensus level, not on whether they pick one <em>correct</em> answer.
     </p>
     <a class="thesis-link" href="#/thesis" @click="openThesis">
-      <span>Read the full argument and recommendations for governments</span>
+      <span>Read the brief for procurement and back-end teams</span>
       <span class="arrow" aria-hidden="true">→</span>
     </a>
   </div>

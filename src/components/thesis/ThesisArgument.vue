@@ -3,7 +3,7 @@
 <template>
   <section class="argument">
     <div class="section-header">
-      <span class="micro">The argument</span>
+      <span class="micro">The case</span>
     </div>
     <div class="prose">
       <p>

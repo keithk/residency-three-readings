@@ -1,5 +1,5 @@
 ---
-name: The Disagreement Dataset
+name: Three Readings
 description: Ten SNAP scenarios where three personas read the same case three different ways.
 colors:
   paper: "oklch(0.972 0.008 75)"
@@ -114,7 +114,7 @@ components:
     rounded: "{rounded.none}"
 ---
 
-# Design System: The Disagreement Dataset
+# Design System: Three Readings
 
 ## 1. Overview
 

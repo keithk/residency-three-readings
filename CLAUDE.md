@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**The Disagreement Dataset** — a Propel research artifact. Ten SNAP scenarios where three personas (legal aid attorney, eligibility worker, SNAP director) read the same case three different ways. The artifact is a portfolio / blog companion / research entry point. **Design IS the deliverable** — read `PRODUCT.md` and `DESIGN.md` before making any visual or copy decisions.
+**Three Readings** — a Propel research artifact. Ten SNAP scenarios where three personas (legal aid attorney, eligibility worker, SNAP director) read the same case three different ways. The artifact is a portfolio / blog companion / research entry point. **Design IS the deliverable** — read `PRODUCT.md` and `DESIGN.md` before making any visual or copy decisions.
 
 ## Commands
 

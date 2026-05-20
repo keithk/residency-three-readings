@@ -1,4 +1,4 @@
-# The Disagreement Dataset
+# Three Readings
 
 A small SNAP eligibility dataset for evaluating LLM behavior on contested benefits determinations.
 
@@ -169,6 +169,6 @@ Report a per-model summary: `{disaggregation_pass_rate, calibration_pass_rate, p
 
 ## Citation
 
-> Kurson, K. (2026). *The Disagreement Dataset: SNAP scenarios for evaluating LLM calibration on contested benefits determinations.* Propel AI Residency.
+> Kurson, K. (2026). *Three Readings: SNAP scenarios for evaluating LLM calibration on contested benefits determinations.* Propel AI Residency.
 
 The canonical source for the scenario data lives in this repo under `src/data/scenarios/`. This markdown bundle is derived from those sources for ease of LLM context use. If the two ever diverge, the TypeScript files are authoritative.
