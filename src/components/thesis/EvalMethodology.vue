@@ -38,7 +38,7 @@ const evalTypes: EvalType[] = [
 
     <div class="intro prose">
       <p>
-        What follows is the methodology the dataset implies. It is small. Four scenarios are published, six are in progress; that is enough to be a unit test, not enough to be a benchmark, and we are explicit about that. The methodology is the shape, not the number. The dataset itself is a markdown bundle, one file per scenario, with structured frontmatter that scores the three evals below. Extend it to your jurisdiction. The structure carries.
+        What follows is the methodology the dataset implies. It is small. Five scenarios are published, five are in progress; that is enough to be a unit test, not enough to be a benchmark, and we are explicit about that. The methodology is the shape, not the number. The dataset itself is a markdown bundle, one file per scenario, with structured frontmatter that scores the three evals below. Extend it to your domain. The structure carries.
       </p>
       <a class="dataset-link" :href="DATASET_URL" target="_blank" rel="noopener">
         <span>Get the dataset</span>

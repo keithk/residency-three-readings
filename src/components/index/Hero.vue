@@ -18,7 +18,7 @@
       </span>
     </h1>
     <p class="lede hero-lede">
-      Ten SNAP scenarios where three experts read the same case three different ways. A calibration brief for AI on contested benefits determinations, where "right" is itself contested and the stakes are whether someone eats next month.
+      A single AI confidence score is an average of institutional perspectives that real organizations deliberately keep apart. Ten SNAP scenarios, read by three role-specific experts, show what that average conceals. The argument applies anywhere an LLM scores a decision a person would deliberate. The cases are SNAP, where the stakes are whether someone eats next month.
     </p>
   </div>
 </template>

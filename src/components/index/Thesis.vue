@@ -12,10 +12,10 @@ function openThesis(event: MouseEvent) {
 <template>
   <div class="thesis">
     <p>
-      Calibration research has mostly been about factual QA. A model that says <em>"I'm 95% sure"</em> on whether the capital of France is Paris is doing a tractable thing. A model that says the same about whether Maria's ex-roommate belongs in her SNAP household is acting as if the question has a single right answer. It does not. Add a consideration to the prompt, the answer shifts. Add an expert lens, it shifts again. The dataset is a record of what an output of that shape leaves out, and an argument for another axis: room in the output for what is contested.
+      When an LLM scores a contested decision, it returns one number. That number is an average across the institutional perspectives in its training, blended and presented as a judgment. Ask whether the capital of France is Paris and the model can be <em>"95% sure"</em> of a tractable fact. Ask whether Maria's ex-roommate belongs in her SNAP household and the same number performs a stance on a question that has no single right answer. Add a consideration to the prompt, the answer shifts. Add an expert lens, it shifts again. The dataset is a record of what that averaged output conceals.
     </p>
     <p>
-      The dataset captures the cases where the personas land differently. The eval harness scores LLMs on whether they surface that disagreement, characterize each reading, and calibrate confidence to the actual consensus level, not on whether they pick one <em>correct</em> answer.
+      The method, which the eval harness operationalizes, is to split the same question across three role-specific experts and read the spread before the mean. The dataset records where the readings part ways. The eval harness scores LLMs on whether they surface those differences, characterize each reading, and calibrate confidence to actual expert consensus, not on whether they pick one <em>correct</em> answer.
     </p>
     <a class="thesis-link" href="#/thesis" @click="openThesis">
       <span>Read the brief for procurement and back-end teams</span>

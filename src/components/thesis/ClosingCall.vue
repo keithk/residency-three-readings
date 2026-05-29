@@ -9,7 +9,7 @@ import { DATASET_URL } from "@/data/links";
     </div>
 
     <p class="prose">
-      The methodology is the page you just read. The dataset is four published cases, six in progress, shipped as a markdown bundle in the repo. If your team is procuring or building an LLM that will touch contested benefits determinations, treat this as a starting point and a methodology that generalizes. The cases are synthetic. The ambiguity is real, and it is the ambiguity, not the answer, that the current generation of benefits AI is being trained to ignore.
+      The methodology is the page you just read. The dataset is five published cases, five in progress, shipped as a markdown bundle in the repo. If your team is building, procuring, or evaluating an LLM that will score a contested decision, treat this as a starting point. The cases are SNAP, and the cases are synthetic. The ambiguity is real, and it is the ambiguity, not the answer, that the current generation of evaluator AI is being trained to ignore.
     </p>
 
     <a class="dataset-link" :href="DATASET_URL" target="_blank" rel="noopener">
@@ -18,7 +18,7 @@ import { DATASET_URL } from "@/data/links";
     </a>
 
     <p class="punchline">
-      AI eligibility tools always give a single confident answer. The cases that matter most don't have one.
+      AI evaluators give a single confident answer. The cases that matter most don't have one.
     </p>
   </section>
 </template>

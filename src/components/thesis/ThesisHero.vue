@@ -23,7 +23,7 @@ function backToIndex(event: MouseEvent) {
       with three readings.
     </h1>
     <p class="lede">
-      A brief for governments procuring or building LLMs that will touch benefits-eligibility decisions. The dataset bundles the cases. This page lays out the methodology and the recommendations: what to require in procurement, what to evaluate, and what not to fine-tune away. Aimed at back-end systems, not at the people whose benefits are at stake.
+      A brief for anyone building, procuring, or evaluating an LLM that will score a contested decision a person would normally deliberate. The dataset bundles ten SNAP cases as the demonstration; the methodology is portable. This page lays out the eval harness and the recommendations: what to evaluate, what to require, what not to fine-tune away. Aimed at the systems behind the decision, not at the people the decision affects.
     </p>
   </div>
 </template>
