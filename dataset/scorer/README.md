@@ -7,7 +7,7 @@ A reference implementation of the three Three Readings evals (disaggregation, ca
 ## install
 
 ```bash
-git clone <repo>
+git clone https://github.com/keithk/three-readings-dataset
 bun install
 ```
 
