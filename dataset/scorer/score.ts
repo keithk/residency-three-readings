@@ -3,6 +3,7 @@ import type {
   ModelOutput,
   DisaggregationResult,
   CalibrationResult,
+  GroundingResult,
 } from "./types";
 
 export function scoreDisaggregation(
@@ -102,4 +103,77 @@ export function scoreCalibration(
   ].join(" ");
 
   return { status, gap, maxReadingConfidence, detail };
+}
+
+export function scoreGrounding(
+  scenario: ScorerScenario,
+  output: ModelOutput,
+): GroundingResult {
+  const normalize = (s: string) =>
+    s.replace(/[‘’“”]/g, '"').replace(/\s+/g, " ").trim().toLowerCase();
+
+  const personaByCall = new Map<string, string>();
+  for (const [slug, reading] of Object.entries(scenario.readings)) {
+    if (!personaByCall.has(reading.call)) personaByCall.set(reading.call, slug);
+  }
+
+  const surfaced = new Set<string>();
+  const misattributed: GroundingResult["misattributed"] = [];
+  const unanchored: string[] = [];
+
+  for (const r of output.readings) {
+    if (r.citedPhrases.length === 0) {
+      unanchored.push(r.name);
+      continue;
+    }
+    const callPersonaSlug = personaByCall.get(r.call);
+    for (const cited of r.citedPhrases) {
+      const citedNorm = normalize(cited);
+      const matchedKey = scenario.phrase_keys.find((p) => {
+        const t = normalize(p.text);
+        return t.includes(citedNorm) || citedNorm.includes(t);
+      })?.key;
+      if (!matchedKey) continue;
+      surfaced.add(matchedKey);
+      if (callPersonaSlug) {
+        const expectedSlugs = Object.entries(scenario.readings)
+          .filter(([, reading]) => reading.grounded_in.includes(matchedKey))
+          .map(([slug]) => slug);
+        if (expectedSlugs.length > 0 && !expectedSlugs.includes(callPersonaSlug)) {
+          misattributed.push({
+            key: matchedKey,
+            expectedPersona: expectedSlugs[0],
+            citedUnder: callPersonaSlug,
+          });
+        }
+      }
+    }
+  }
+
+  const expectedKeys = new Set<string>();
+  for (const reading of Object.values(scenario.readings)) {
+    for (const k of reading.grounded_in) expectedKeys.add(k);
+  }
+  const missed = Array.from(expectedKeys).filter((k) => !surfaced.has(k));
+
+  let status: GroundingResult["status"];
+  if (unanchored.length > 0) status = "fail";
+  else if (missed.length === 0 && misattributed.length === 0) status = "pass";
+  else status = "partial";
+
+  const detail = [
+    `Surfaced ${surfaced.size} phrase(s).`,
+    missed.length ? `Missed: ${missed.join(", ")}.` : "",
+    misattributed.length ? `Misattributed: ${misattributed.length}.` : "",
+    unanchored.length ? `Readings without anchors: ${unanchored.join(", ")}.` : "",
+  ].filter(Boolean).join(" ");
+
+  return {
+    status,
+    surfaced: Array.from(surfaced),
+    missed,
+    misattributed,
+    unanchored,
+    detail,
+  };
 }

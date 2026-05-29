@@ -188,3 +188,77 @@ describe("scoreCalibration", () => {
     expect(result.gap).toBeUndefined();
   });
 });
+
+import { scoreGrounding } from "./score";
+
+describe("scoreGrounding", () => {
+  it("passes when each persona's call is cited with at least one expected phrase", () => {
+    const output: ModelOutput = {
+      readings: [
+        {
+          name: "The advocate", call: "Not in household", confidence: 60,
+          citedPhrases: ["She shares a two-bedroom apartment.", "don't really eat together"],
+        },
+        {
+          name: "The careful processor", call: "Verify further before deciding", confidence: 50,
+          citedPhrases: ["don't really eat together", "Jordan has covered her half"],
+        },
+        {
+          name: "The institution", call: "Verify further before deciding", confidence: 40,
+          citedPhrases: ["Jordan has covered her half"],
+        },
+      ],
+    };
+    const result = scoreGrounding(fixture, output);
+    expect(result.status).toBe("pass");
+    expect(result.surfaced.sort()).toEqual(["cohabit", "prep", "rent"]);
+    expect(result.missed).toEqual([]);
+    expect(result.misattributed).toEqual([]);
+    expect(result.unanchored).toEqual([]);
+  });
+
+  it("flags a reading with no cited phrases as unanchored", () => {
+    const output: ModelOutput = {
+      readings: [
+        {
+          name: "The advocate", call: "Not in household", confidence: 60,
+          citedPhrases: [],
+        },
+      ],
+    };
+    const result = scoreGrounding(fixture, output);
+    expect(result.unanchored).toEqual(["The advocate"]);
+    expect(result.status).toBe("fail");
+  });
+
+  it("detects misattribution when a phrase is cited under the wrong persona's call", () => {
+    const output: ModelOutput = {
+      readings: [
+        {
+          name: "The advocate", call: "Not in household", confidence: 60,
+          citedPhrases: ["Jordan has covered her half"],
+        },
+        {
+          name: "The careful processor", call: "Verify further before deciding", confidence: 50,
+          citedPhrases: ["She shares a two-bedroom apartment."],
+        },
+      ],
+    };
+    const result = scoreGrounding(fixture, output);
+    expect(result.misattributed.length).toBeGreaterThan(0);
+    expect(result.status).toBe("partial");
+  });
+
+  it("reports missed phrases the dataset expects under a persona that wasn't cited", () => {
+    const output: ModelOutput = {
+      readings: [
+        {
+          name: "The advocate", call: "Not in household", confidence: 60,
+          citedPhrases: ["She shares a two-bedroom apartment."],
+        },
+      ],
+    };
+    const result = scoreGrounding(fixture, output);
+    expect(result.missed).toContain("rent");
+  });
+});
