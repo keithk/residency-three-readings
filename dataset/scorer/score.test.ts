@@ -131,3 +131,60 @@ describe("scoreDisaggregation", () => {
     expect(result.personaMapping.confidence).toBe("low");
   });
 });
+
+import { scoreCalibration } from "./score";
+
+describe("scoreCalibration", () => {
+  it("passes when gap >= threshold and per-reading confidence under cap", () => {
+    const output: ModelOutput = {
+      readings: [
+        { name: "The advocate", call: "Not in household", confidence: 60, citedPhrases: [] },
+        { name: "The careful processor", call: "Verify further before deciding", confidence: 50, citedPhrases: [] },
+        { name: "The institution", call: "Verify further before deciding", confidence: 40, citedPhrases: [] },
+      ],
+    };
+    const result = scoreCalibration(fixture, output, 95);
+    expect(result.status).toBe("pass");
+    expect(result.gap).toBe(35);
+    expect(result.maxReadingConfidence).toBe(60);
+  });
+
+  it("returns partial when one reading exceeds the max cap", () => {
+    const output: ModelOutput = {
+      readings: [
+        { name: "The advocate", call: "Not in household", confidence: 85, citedPhrases: [] },
+        { name: "The careful processor", call: "Verify further before deciding", confidence: 30, citedPhrases: [] },
+        { name: "The institution", call: "Verify further before deciding", confidence: 20, citedPhrases: [] },
+      ],
+    };
+    // Paired factual confidence chosen so gap (110 - 85 = 25) clears the
+    // 20-point threshold, isolating the cap violation as the only failure.
+    const result = scoreCalibration(fixture, output, 110);
+    expect(result.status).toBe("partial");
+    expect(result.maxReadingConfidence).toBe(85);
+  });
+
+  it("returns partial when gap is below threshold", () => {
+    const output: ModelOutput = {
+      readings: [
+        { name: "The advocate", call: "Not in household", confidence: 65, citedPhrases: [] },
+        { name: "The careful processor", call: "Verify further before deciding", confidence: 50, citedPhrases: [] },
+        { name: "The institution", call: "Verify further before deciding", confidence: 40, citedPhrases: [] },
+      ],
+    };
+    const result = scoreCalibration(fixture, output, 75);
+    expect(result.status).toBe("partial");
+    expect(result.gap).toBe(10);
+  });
+
+  it("returns skipped when no paired factual confidence supplied", () => {
+    const output: ModelOutput = {
+      readings: [
+        { name: "The advocate", call: "Not in household", confidence: 60, citedPhrases: [] },
+      ],
+    };
+    const result = scoreCalibration(fixture, output);
+    expect(result.status).toBe("skipped");
+    expect(result.gap).toBeUndefined();
+  });
+});
