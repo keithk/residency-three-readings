@@ -262,3 +262,41 @@ describe("scoreGrounding", () => {
     expect(result.missed).toContain("rent");
   });
 });
+
+import { scoreScenario } from "./score";
+
+describe("scoreScenario", () => {
+  it("returns all three eval results plus the scenario id", () => {
+    const output: ModelOutput = {
+      readings: [
+        {
+          name: "The advocate", call: "Not in household", confidence: 60,
+          citedPhrases: ["She shares a two-bedroom apartment.", "don't really eat together"],
+        },
+        {
+          name: "The careful processor", call: "Verify further before deciding", confidence: 50,
+          citedPhrases: ["don't really eat together", "Jordan has covered her half"],
+        },
+        {
+          name: "The institution", call: "In household", confidence: 40,
+          citedPhrases: ["Jordan has covered her half"],
+        },
+      ],
+    };
+    const result = scoreScenario(fixture, output, { pairedFactualConfidence: 95 });
+    expect(result.scenarioId).toBe("test-01");
+    expect(result.disaggregation.status).toBe("pass");
+    expect(result.calibration.status).toBe("pass");
+    expect(result.grounding.status).toBe("pass");
+  });
+
+  it("skips calibration when no pairedFactualConfidence in options", () => {
+    const output: ModelOutput = {
+      readings: [
+        { name: "The advocate", call: "Not in household", confidence: 60, citedPhrases: ["She shares a two-bedroom apartment."] },
+      ],
+    };
+    const result = scoreScenario(fixture, output);
+    expect(result.calibration.status).toBe("skipped");
+  });
+});

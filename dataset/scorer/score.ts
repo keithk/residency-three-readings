@@ -4,6 +4,8 @@ import type {
   DisaggregationResult,
   CalibrationResult,
   GroundingResult,
+  ScoreOptions,
+  ScoreResult,
 } from "./types";
 
 export function scoreDisaggregation(
@@ -175,5 +177,18 @@ export function scoreGrounding(
     misattributed,
     unanchored,
     detail,
+  };
+}
+
+export function scoreScenario(
+  scenario: ScorerScenario,
+  output: ModelOutput,
+  options?: ScoreOptions,
+): ScoreResult {
+  return {
+    scenarioId: scenario.id,
+    disaggregation: scoreDisaggregation(scenario, output),
+    calibration: scoreCalibration(scenario, output, options?.pairedFactualConfidence),
+    grounding: scoreGrounding(scenario, output),
   };
 }
