@@ -4,17 +4,19 @@
   <div class="hero">
     <h1
       class="hero-title"
-      aria-label="Three readings: the advocate, the careful processor, the institution"
+      aria-label="Beyond average: the legal aid attorney, the eligibility worker, the SNAP director"
     >
-      <span class="line line-count" aria-hidden="true">Three readings</span>
+      <span class="line line-title" aria-hidden="true">
+        Beyond <em class="mark-average">Average</em>
+      </span>
       <span class="line line-persona line-legal" aria-hidden="true">
-        The <em>advocate</em>
+        The <em>legal aid attorney</em>
       </span>
       <span class="line line-persona line-worker" aria-hidden="true">
-        The <em>careful processor</em>
+        The <em>eligibility worker</em>
       </span>
       <span class="line line-persona line-director" aria-hidden="true">
-        The <em>institution</em>
+        The <em>SNAP director</em>
       </span>
     </h1>
     <p class="lede hero-lede">
@@ -42,9 +44,7 @@
 
 .hero-title {
   font-family: var(--serif);
-  font-size: clamp(2.25rem, 6.4vw, 5.25rem);
   font-weight: 380;
-  font-variation-settings: "opsz" 60;
   line-height: 1;
   letter-spacing: -0.035em;
   margin: 0;
@@ -60,41 +60,79 @@
   animation: lineArrive 520ms var(--ease-out) forwards;
 }
 
-.hero-title .line-count {
+.hero-title .line-title {
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  font-variation-settings: "opsz" 60;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
   animation-delay: 60ms;
 }
 
+.hero-title .line-title :deep(em.mark-average) {
+  font-style: normal;
+  color: var(--ink);
+  animation:
+    avgColorize 640ms var(--ease-quart) 580ms forwards,
+    avgItalicize 1ms linear 1700ms forwards;
+}
+
 .hero-title .line-persona {
+  font-size: clamp(1.875rem, 5vw, 3.75rem);
   font-weight: 380;
+  font-variation-settings: "opsz" 36;
+  margin-top: 0.18em;
 }
 
 .hero-title .line-persona :deep(em) {
   font-style: italic;
   font-weight: 320;
-  font-variation-settings: "opsz" 60;
+  font-variation-settings: "opsz" 36;
+  color: var(--ink);
 }
 
 .hero-title .line-legal {
   animation-delay: 220ms;
-  margin-top: 0.32em;
+  margin-top: 0.42em;
 }
-.hero-title .line-legal :deep(em) { color: var(--legal); }
+.hero-title .line-legal :deep(em) {
+  animation: colorizeLegal 640ms var(--ease-quart) 720ms forwards;
+}
 
 .hero-title .line-worker {
   animation-delay: 360ms;
 }
-.hero-title .line-worker :deep(em) { color: var(--worker); }
+.hero-title .line-worker :deep(em) {
+  animation: colorizeWorker 640ms var(--ease-quart) 860ms forwards;
+}
 
 .hero-title .line-director {
   animation-delay: 500ms;
 }
-.hero-title .line-director :deep(em) { color: var(--director); }
+.hero-title .line-director :deep(em) {
+  animation: colorizeDirector 640ms var(--ease-quart) 1000ms forwards;
+}
 
 @keyframes lineArrive {
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes avgColorize {
+  to { color: var(--stamp); }
+}
+@keyframes avgItalicize {
+  to { font-style: italic; }
+}
+@keyframes colorizeLegal {
+  to { color: var(--legal); }
+}
+@keyframes colorizeWorker {
+  to { color: var(--worker); }
+}
+@keyframes colorizeDirector {
+  to { color: var(--director); }
 }
 
 .hero-lede {
@@ -116,5 +154,13 @@
     transform: none;
     animation: none;
   }
+  .hero-title .line-title :deep(em.mark-average) {
+    color: var(--stamp);
+    font-style: italic;
+    animation: none;
+  }
+  .hero-title .line-legal :deep(em) { color: var(--legal); animation: none; }
+  .hero-title .line-worker :deep(em) { color: var(--worker); animation: none; }
+  .hero-title .line-director :deep(em) { color: var(--director); animation: none; }
 }
 </style>
