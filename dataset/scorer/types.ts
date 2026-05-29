@@ -5,6 +5,13 @@
 // works on adapted datasets with arbitrary persona slugs (manager / recruiter /
 // partner, physician / specialist / case-manager, etc.), not only the SNAP
 // dataset's legal / worker / director.
+//
+// Field naming convention: types that mirror YAML frontmatter keep snake_case
+// (interpretation_question, phrase_keys, grounded_in, baseline_single_answer,
+// target_distribution, expected_targets). Scorer-internal output types use
+// camelCase (citedPhrases, maxReadingConfidence, scenarioId). The boundary is
+// intentional: gray-matter returns the YAML keys verbatim, so the scenario
+// types stay readable next to the source data.
 
 export interface Interpretation {
   label: string;
@@ -18,6 +25,7 @@ export interface PhraseKey {
 
 export interface WeightEntry {
   interpretation: string;
+  /** Percentage, 0-100. A persona's weights[] should sum to 100; so should calibration.target_distribution. */
   value: number;
 }
 
@@ -83,7 +91,9 @@ export interface DisaggregationResult {
   status: EvalStatus;
   coverage: { surfaced: string[]; missed: string[]; extras: string[] };
   personaMapping: {
+    /** Maps dataset persona slug (e.g. "legal") to the model reading.name that matched it. */
     matches: Record<string, string>;
+    /** Scorer's certainty in its own mapping, not the model's confidence. "low" when one or more personas could not be matched to any model reading. */
     confidence: "high" | "low";
   };
   detail: string;
