@@ -23,7 +23,7 @@ function backToIndex(event: MouseEvent) {
       with three readings.
     </h1>
     <p class="lede">
-      A brief for anyone building, procuring, or evaluating an LLM that will score a contested decision a person would normally deliberate. The dataset bundles ten SNAP cases as the demonstration; the methodology is portable. This page lays out the eval harness and the recommendations: what to evaluate, what to require, what not to fine-tune away. Aimed at the systems behind the decision, not at the people the decision affects.
+      A brief for people building, buying, or testing an LLM that will judge cases humans would normally argue over. We use five SNAP cases as the example. The same approach works in other domains. This page covers how to test the model, what to ask of vendors, and what not to train out of it. Aimed at the systems behind the decision, not at the people the decision affects.
     </p>
   </div>
 </template>
