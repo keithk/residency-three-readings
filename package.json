@@ -11,6 +11,7 @@
     "dataset:build": "bun run scripts/build-dataset.ts"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "vue": "^3.5.13"
   },
   "devDependencies": {
