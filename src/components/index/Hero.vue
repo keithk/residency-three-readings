@@ -69,11 +69,8 @@
 }
 
 .hero-title .line-title :deep(em.mark-average) {
-  font-style: normal;
-  color: var(--ink);
-  animation:
-    avgColorize 640ms var(--ease-quart) 580ms forwards,
-    avgItalicize 1ms linear 1700ms forwards;
+  font-style: italic;
+  color: var(--stamp);
 }
 
 .hero-title .line-persona {
@@ -87,52 +84,29 @@
   font-style: italic;
   font-weight: 320;
   font-variation-settings: "opsz" 36;
-  color: var(--ink);
 }
 
 .hero-title .line-legal {
   animation-delay: 220ms;
   margin-top: 0.42em;
 }
-.hero-title .line-legal :deep(em) {
-  animation: colorizeLegal 640ms var(--ease-quart) 720ms forwards;
-}
+.hero-title .line-legal :deep(em) { color: var(--legal); }
 
 .hero-title .line-worker {
   animation-delay: 360ms;
 }
-.hero-title .line-worker :deep(em) {
-  animation: colorizeWorker 640ms var(--ease-quart) 860ms forwards;
-}
+.hero-title .line-worker :deep(em) { color: var(--worker); }
 
 .hero-title .line-director {
   animation-delay: 500ms;
 }
-.hero-title .line-director :deep(em) {
-  animation: colorizeDirector 640ms var(--ease-quart) 1000ms forwards;
-}
+.hero-title .line-director :deep(em) { color: var(--director); }
 
 @keyframes lineArrive {
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes avgColorize {
-  to { color: var(--stamp); }
-}
-@keyframes avgItalicize {
-  to { font-style: italic; }
-}
-@keyframes colorizeLegal {
-  to { color: var(--legal); }
-}
-@keyframes colorizeWorker {
-  to { color: var(--worker); }
-}
-@keyframes colorizeDirector {
-  to { color: var(--director); }
 }
 
 .hero-lede {
@@ -154,13 +128,5 @@
     transform: none;
     animation: none;
   }
-  .hero-title .line-title :deep(em.mark-average) {
-    color: var(--stamp);
-    font-style: italic;
-    animation: none;
-  }
-  .hero-title .line-legal :deep(em) { color: var(--legal); animation: none; }
-  .hero-title .line-worker :deep(em) { color: var(--worker); animation: none; }
-  .hero-title .line-director :deep(em) { color: var(--director); animation: none; }
 }
 </style>
