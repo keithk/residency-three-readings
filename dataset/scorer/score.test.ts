@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import { scoreDisaggregation } from "./score";
+import { scoreDisaggregation, scoreCalibration, scoreGrounding, scoreScenario } from "./score";
 import type { ScorerScenario, ModelOutput } from "./types";
 
 const fixture: ScorerScenario = {
@@ -132,8 +132,6 @@ describe("scoreDisaggregation", () => {
   });
 });
 
-import { scoreCalibration } from "./score";
-
 describe("scoreCalibration", () => {
   it("passes when gap >= threshold and per-reading confidence under cap", () => {
     const output: ModelOutput = {
@@ -188,8 +186,6 @@ describe("scoreCalibration", () => {
     expect(result.gap).toBeUndefined();
   });
 });
-
-import { scoreGrounding } from "./score";
 
 describe("scoreGrounding", () => {
   it("passes when each persona's call is cited with at least one expected phrase", () => {
@@ -262,8 +258,6 @@ describe("scoreGrounding", () => {
     expect(result.missed).toContain("rent");
   });
 });
-
-import { scoreScenario } from "./score";
 
 describe("scoreScenario", () => {
   it("returns all three eval results plus the scenario id", () => {
