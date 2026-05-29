@@ -8,7 +8,8 @@
     "build": "bun run dataset:validate && vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "dataset:validate": "bun run scripts/validate-dataset.ts",
-    "dataset:build": "bun run scripts/build-dataset.ts"
+    "dataset:build": "bun run scripts/build-dataset.ts",
+    "dataset:score:example": "bun run dataset/scorer/example.ts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
