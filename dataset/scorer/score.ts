@@ -12,6 +12,19 @@ export function scoreDisaggregation(
   scenario: ScorerScenario,
   output: ModelOutput,
 ): DisaggregationResult {
+  if (output.readings.length === 0) {
+    return {
+      status: "fail",
+      coverage: {
+        surfaced: [],
+        missed: scenario.interpretations.map((i) => i.label),
+        extras: [],
+      },
+      personaMapping: { matches: {}, confidence: "low" },
+      detail: "No readings in model output.",
+    };
+  }
+
   const namedLabels = new Set(scenario.interpretations.map((i) => i.label));
   const modelCalls = output.readings.map((r) => r.call);
 
@@ -78,8 +91,15 @@ export function scoreCalibration(
   output: ModelOutput,
   pairedFactualConfidence?: number,
 ): CalibrationResult {
+  if (output.readings.length === 0) {
+    return {
+      status: "fail",
+      maxReadingConfidence: 0,
+      detail: "No readings in model output.",
+    };
+  }
+
   const maxReadingConfidence = Math.max(
-    0,
     ...output.readings.map((r) => r.confidence),
   );
   const cap = scenario.calibration.expected_targets.max_single_reading_confidence;
@@ -107,16 +127,37 @@ export function scoreCalibration(
   return { status, gap, maxReadingConfidence, detail };
 }
 
+// Minimum normalized length for a citation to count as a verbatim quote.
+// Guards against substring-match false positives from common short words
+// (e.g. a model citing "her" should not match every phrase containing "her").
+const MIN_CITATION_LENGTH = 8;
+
 export function scoreGrounding(
   scenario: ScorerScenario,
   output: ModelOutput,
 ): GroundingResult {
+  if (output.readings.length === 0) {
+    return {
+      status: "fail",
+      surfaced: [],
+      missed: [],
+      misattributed: [],
+      unanchored: [],
+      detail: "No readings in model output.",
+    };
+  }
+
   const normalize = (s: string) =>
     s.replace(/[‘’“”]/g, '"').replace(/\s+/g, " ").trim().toLowerCase();
 
-  const personaByCall = new Map<string, string>();
+  // Multiple personas can share the same call (e.g. worker and director both
+  // call "Verify further before deciding"). Track all slugs per call so the
+  // misattribution check considers every persona whose call matches.
+  const personaByCall = new Map<string, string[]>();
   for (const [slug, reading] of Object.entries(scenario.readings)) {
-    if (!personaByCall.has(reading.call)) personaByCall.set(reading.call, slug);
+    const existing = personaByCall.get(reading.call) ?? [];
+    existing.push(slug);
+    personaByCall.set(reading.call, existing);
   }
 
   const surfaced = new Set<string>();
@@ -128,8 +169,17 @@ export function scoreGrounding(
       unanchored.push(r.name);
       continue;
     }
-    const callPersonaSlug = personaByCall.get(r.call);
-    for (const cited of r.citedPhrases) {
+    // Filter out citations too short to be real quotes. If none survive,
+    // the reading has no usable anchors, same as if citedPhrases was empty.
+    const validCitations = r.citedPhrases.filter(
+      (c) => normalize(c).length >= MIN_CITATION_LENGTH,
+    );
+    if (validCitations.length === 0) {
+      unanchored.push(r.name);
+      continue;
+    }
+    const callPersonaSlugs = personaByCall.get(r.call) ?? [];
+    for (const cited of validCitations) {
       const citedNorm = normalize(cited);
       const matchedKey = scenario.phrase_keys.find((p) => {
         const t = normalize(p.text);
@@ -137,15 +187,16 @@ export function scoreGrounding(
       })?.key;
       if (!matchedKey) continue;
       surfaced.add(matchedKey);
-      if (callPersonaSlug) {
+      if (callPersonaSlugs.length > 0) {
         const expectedSlugs = Object.entries(scenario.readings)
           .filter(([, reading]) => reading.grounded_in.includes(matchedKey))
           .map(([slug]) => slug);
-        if (expectedSlugs.length > 0 && !expectedSlugs.includes(callPersonaSlug)) {
+        const intersects = callPersonaSlugs.some((s) => expectedSlugs.includes(s));
+        if (expectedSlugs.length > 0 && !intersects) {
           misattributed.push({
             key: matchedKey,
-            expectedPersona: expectedSlugs[0],
-            citedUnder: callPersonaSlug,
+            expectedPersonas: expectedSlugs,
+            citedUnder: callPersonaSlugs.join(","),
           });
         }
       }

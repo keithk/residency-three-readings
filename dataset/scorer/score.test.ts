@@ -259,6 +259,67 @@ describe("scoreGrounding", () => {
   });
 });
 
+describe("scorer edge cases", () => {
+  it("does not flag misattribution when persona calls share a label and the cited phrase is grounded under either persona", () => {
+    // worker and director both call "Verify further before deciding".
+    // "rent" is grounded in worker AND director.
+    // A model reading with that call and citing "rent" should NOT misattribute.
+    const output: ModelOutput = {
+      readings: [
+        {
+          name: "The careful processor", call: "Verify further before deciding", confidence: 50,
+          citedPhrases: ["Jordan has covered her half"],
+        },
+      ],
+    };
+    const result = scoreGrounding(fixture, output);
+    expect(result.misattributed).toEqual([]);
+  });
+
+  it("reports plural expectedPersonas when a cited phrase is grounded under multiple personas", () => {
+    // "cohabit" is grounded in legal AND director.
+    // Reading with call "Refer to a supervisor" doesn't map to any persona,
+    // so the callPersonaSlug guard skips the misattribution check. Documented behavior.
+    const output: ModelOutput = {
+      readings: [
+        {
+          name: "Some other lens", call: "Refer to a supervisor", confidence: 30,
+          citedPhrases: ["She shares a two-bedroom apartment."],
+        },
+      ],
+    };
+    const result = scoreGrounding(fixture, output);
+    expect(result.misattributed).toEqual([]);
+  });
+
+  it("ignores citations shorter than the minimum length (no false positives from common short words)", () => {
+    const output: ModelOutput = {
+      readings: [
+        {
+          name: "The advocate", call: "Not in household", confidence: 60,
+          citedPhrases: ["her", "the"],  // too short to count as a real verbatim quote
+        },
+      ],
+    };
+    const result = scoreGrounding(fixture, output);
+    expect(result.surfaced).toEqual([]);
+    expect(result.unanchored).toContain("The advocate");
+  });
+
+  it("treats empty output.readings as fail across all evals", () => {
+    const emptyOutput: ModelOutput = { readings: [] };
+
+    const disagg = scoreDisaggregation(fixture, emptyOutput);
+    expect(disagg.status).toBe("fail");
+
+    const calib = scoreCalibration(fixture, emptyOutput, 95);
+    expect(calib.status).toBe("fail");
+
+    const grounding = scoreGrounding(fixture, emptyOutput);
+    expect(grounding.status).toBe("fail");
+  });
+});
+
 describe("scoreScenario", () => {
   it("returns all three eval results plus the scenario id", () => {
     const output: ModelOutput = {

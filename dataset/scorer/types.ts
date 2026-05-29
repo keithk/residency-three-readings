@@ -110,7 +110,7 @@ export interface GroundingResult {
   status: EvalStatus;
   surfaced: string[];
   missed: string[];
-  misattributed: Array<{ key: string; expectedPersona: string; citedUnder: string }>;
+  misattributed: Array<{ key: string; expectedPersonas: string[]; citedUnder: string }>;
   unanchored: string[];
   detail: string;
 }
