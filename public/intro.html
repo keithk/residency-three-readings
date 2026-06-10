@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beyond Average · Walkthrough</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+<style>
+  :root {
+    --paper:        oklch(0.972 0.008 75);
+    --paper-2:      oklch(0.946 0.012 75);
+    --paper-3:      oklch(0.915 0.018 75);
+    --ink:          oklch(0.20 0.012 85);
+    --ink-soft:     oklch(0.42 0.012 85);
+    --ink-faint:    oklch(0.60 0.012 85);
+    --ink-ghost:    oklch(0.78 0.010 75);
+    --stamp:        oklch(0.50 0.135 28);
+    --stamp-fade:   oklch(0.92 0.04 28);
+    --rule:         oklch(0.84 0.014 75);
+    --hairline:     oklch(0.90 0.012 75);
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header ── */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    opacity: 0;
+    transform: translateY(0.4em);
+    animation: arrive 600ms var(--ease-out) 80ms forwards;
+  }
+
+  /* ── Stage (slides live here) ── */
+  .stage {
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .slide {
+    grid-column: 1;
+    grid-row: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 280ms var(--ease-out);
+    display: grid;
+    align-content: center;
+    gap: 2rem;
+    padding: 2rem 0;
+  }
+
+  .slide.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ── Slide 1: Title ── */
+  .slide-title {
+    max-width: 22ch;
+  }
+
+  .title {
+    font-family: var(--serif);
+    font-size: clamp(3.75rem, 11vw, 9rem);
+    font-weight: 380;
+    font-variation-settings: "opsz" 60;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .title em {
+    font-style: italic;
+    color: var(--stamp);
+    font-weight: 320;
+  }
+
+  .subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1.1875rem, 1.9vw, 1.4375rem);
+    font-weight: 380;
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+    color: var(--ink-soft);
+    max-width: 36ch;
+    margin: 0;
+  }
+
+  /* Slide 1 has its own initial stagger animation, only on first load */
+  .slide-title.active .title,
+  .slide-title.active .subtitle {
+    opacity: 0;
+    transform: translateY(0.4em);
+    animation: arrive 760ms var(--ease-out) forwards;
+  }
+  .slide-title.active .title { animation-delay: 260ms; }
+  .slide-title.active .subtitle { animation-delay: 500ms; }
+
+  /* ── Diagram slides (2 and 3) ── */
+  .slide-heading {
+    font-family: var(--serif);
+    font-size: clamp(1.875rem, 3.6vw, 2.75rem);
+    font-weight: 400;
+    font-variation-settings: "opsz" 36;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin: 0;
+    max-width: 24ch;
+  }
+
+  .question-block {
+    display: grid;
+    gap: 0.45rem;
+    max-width: 44ch;
+  }
+
+  .question-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .question-text {
+    font-family: var(--serif);
+    font-size: clamp(1.0625rem, 1.5vw, 1.3125rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    margin: 0;
+    padding: 0.5rem 0.9rem;
+    background: var(--paper-2);
+    border-left: 2px solid var(--stamp);
+    line-height: 1.4;
+  }
+
+  .diagram {
+    display: grid;
+    grid-template-columns: minmax(0, auto) auto auto auto minmax(0, auto);
+    align-items: center;
+    gap: clamp(0.75rem, 1.8vw, 1.75rem);
+    padding: 0.5rem 0;
+  }
+
+  .sources {
+    display: grid;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .source {
+    font-family: var(--serif);
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    line-height: 1.25;
+    color: var(--ink-soft);
+    padding: 0.4rem 0.75rem;
+    background: var(--paper-2);
+    border-left: 2px solid var(--ink-ghost);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    transition: all 360ms var(--ease-out);
+  }
+
+  .source .vol {
+    display: inline-block;
+    height: 4px;
+    background: var(--ink-faint);
+    border-radius: 1px;
+    flex-shrink: 0;
+    transition: width 360ms var(--ease-out), background 360ms var(--ease-out);
+    width: 56px;
+  }
+
+  /* Bias overlay weights (applied to slide 3) */
+  .slide-bias .source.weight-loud {
+    color: var(--ink);
+    font-weight: 500;
+    border-left-color: var(--ink);
+    background: var(--paper-3);
+  }
+  .slide-bias .source.weight-loud .vol { width: 100px; background: var(--ink); }
+
+  .slide-bias .source.weight-mid {
+    color: var(--ink-soft);
+    border-left-color: var(--ink-faint);
+  }
+  .slide-bias .source.weight-mid .vol { width: 64px; background: var(--ink-faint); }
+
+  .slide-bias .source.weight-quiet {
+    color: var(--ink-faint);
+    border-left-color: var(--ink-ghost);
+  }
+  .slide-bias .source.weight-quiet .vol { width: 28px; background: var(--ink-ghost); }
+
+  .slide-bias .source.weight-silent {
+    color: var(--ink-ghost);
+    font-style: italic;
+    border-left-color: var(--hairline);
+    background: var(--paper);
+  }
+  .slide-bias .source.weight-silent .vol { width: 8px; background: var(--ink-ghost); opacity: 0.5; }
+
+  .flow {
+    font-family: var(--mono);
+    font-size: 1.25rem;
+    color: var(--ink-faint);
+    user-select: none;
+  }
+
+  .model {
+    padding: 1.25rem 1.75rem;
+    background: var(--paper-2);
+    border: 1.5px solid var(--ink);
+    font-family: var(--serif);
+    font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+    font-weight: 500;
+    color: var(--ink);
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+
+  .answer {
+    padding: 0.9rem 1.1rem;
+    background: var(--stamp-fade);
+    border: 1.5px solid var(--stamp);
+    font-family: var(--serif);
+    font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.35;
+    max-width: 18ch;
+  }
+
+  .slide-caption {
+    font-family: var(--serif);
+    font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    max-width: 56ch;
+    margin: 0;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.25rem;
+    opacity: 0;
+    animation: arrive 700ms var(--ease-out) 940ms forwards;
+  }
+
+  .presenter {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin: 0;
+    justify-self: start;
+  }
+
+  .slide-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    justify-self: center;
+  }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    border-radius: 2px;
+    transition: color 160ms var(--ease-out), border-color 160ms var(--ease-out), background 160ms var(--ease-out);
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    color: var(--ink);
+    border-color: var(--ink-soft);
+    background: var(--paper-2);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .nav-btn:focus-visible {
+    outline: 2px solid var(--stamp);
+    outline-offset: 3px;
+  }
+
+  .counter {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    min-width: 3.5ch;
+    text-align: center;
+  }
+
+  .enter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 550;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 160ms var(--ease-out);
+    justify-self: end;
+  }
+
+  .enter:hover { color: var(--ink); }
+
+  .enter .arrow-ico {
+    display: inline-block;
+    transition: transform 200ms var(--ease-out);
+  }
+
+  .enter:hover .arrow-ico { transform: translateX(4px); }
+
+  .enter:focus-visible {
+    outline: 2px solid var(--stamp);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  /* ── Animations ── */
+  @keyframes arrive {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow, .title, .subtitle, .footer, .slide {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+  }
+
+  /* ── Narrow screens ── */
+  @media (max-width: 820px) {
+    .diagram {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+      justify-items: start;
+    }
+    .flow {
+      transform: rotate(90deg);
+      padding: 0.25rem 0;
+    }
+    .answer, .model { max-width: none; width: 100%; }
+    .footer {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      justify-items: start;
+    }
+    .presenter, .slide-nav, .enter { justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+  <span class="eyebrow">Propel AI Residency · 2026</span>
+
+  <main class="stage">
+
+    <!-- Slide 1: Title -->
+    <section class="slide slide-title active" data-slide="1" aria-hidden="false">
+      <h1 class="title">Beyond <em>Average</em></h1>
+      <p class="subtitle">What's hiding inside an AI confidence score.</p>
+    </section>
+
+    <!-- Slide 2: How an LLM gives you an answer -->
+    <section class="slide slide-llm" data-slide="2" aria-hidden="true">
+      <h2 class="slide-heading">How an LLM gives you an answer.</h2>
+      <div class="question-block">
+        <span class="question-label">A determination question</span>
+        <p class="question-text">"Does this person qualify for SNAP?"</p>
+      </div>
+      <div class="diagram">
+        <div class="sources">
+          <div class="source"><span>Court rulings</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source"><span>Eligibility manuals</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source"><span>News articles</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source"><span>Advocacy blogs</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source"><span>Reddit threads</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source"><span>Wikipedia entries</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source"><span>State agency PDFs</span><span class="vol" aria-hidden="true"></span></div>
+        </div>
+        <span class="flow" aria-hidden="true">→</span>
+        <div class="model">LLM</div>
+        <span class="flow" aria-hidden="true">→</span>
+        <div class="answer">"Yes. 92% confident."</div>
+      </div>
+      <p class="slide-caption">A Google search would show me the sources to weigh myself. The LLM blends them invisibly, then hands me one answer with a confidence number on it.</p>
+    </section>
+
+    <!-- Slide 3: Where bias enters -->
+    <section class="slide slide-bias" data-slide="3" aria-hidden="true">
+      <h2 class="slide-heading">Not every voice carries the same weight.</h2>
+      <div class="question-block">
+        <span class="question-label">A determination question</span>
+        <p class="question-text">"Does this person qualify for SNAP?"</p>
+      </div>
+      <div class="diagram">
+        <div class="sources">
+          <div class="source weight-loud"><span>Court rulings</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source weight-loud"><span>Eligibility manuals</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source weight-mid"><span>News articles</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source weight-mid"><span>Advocacy blogs</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source weight-quiet"><span>Reddit threads</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source weight-silent"><span>The people the rules apply to</span><span class="vol" aria-hidden="true"></span></div>
+          <div class="source weight-silent"><span>The library volunteer who helped my mom</span><span class="vol" aria-hidden="true"></span></div>
+        </div>
+        <span class="flow" aria-hidden="true">→</span>
+        <div class="model">LLM</div>
+        <span class="flow" aria-hidden="true">→</span>
+        <div class="answer">"Yes. 92% confident."</div>
+      </div>
+      <p class="slide-caption">The blend tips toward whoever's loudest in the training data. The answer is institutionally biased before I ever see it, and the confidence score gives no sign of it.</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p class="presenter">A walkthrough by Keith Kurson</p>
+    <nav class="slide-nav" aria-label="Slide navigation">
+      <button class="nav-btn" data-action="prev" aria-label="Previous slide" disabled>←</button>
+      <span class="counter"><span id="cur">1</span> / <span id="tot">3</span></span>
+      <button class="nav-btn" data-action="next" aria-label="Next slide">→</button>
+    </nav>
+    <a class="enter" href="/" aria-label="Begin walkthrough">
+      <span>Begin walkthrough</span>
+      <span class="arrow-ico" aria-hidden="true">→</span>
+    </a>
+  </footer>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const cur = document.getElementById('cur');
+      const tot = document.getElementById('tot');
+      const prevBtn = document.querySelector('[data-action="prev"]');
+      const nextBtn = document.querySelector('[data-action="next"]');
+      let i = 0;
+
+      tot.textContent = slides.length;
+
+      function show(next) {
+        next = Math.max(0, Math.min(slides.length - 1, next));
+        if (next === i) return;
+        slides[i].classList.remove('active');
+        slides[i].setAttribute('aria-hidden', 'true');
+        slides[next].classList.add('active');
+        slides[next].setAttribute('aria-hidden', 'false');
+        i = next;
+        cur.textContent = i + 1;
+        prevBtn.disabled = i === 0;
+        nextBtn.disabled = i === slides.length - 1;
+      }
+
+      prevBtn.addEventListener('click', () => show(i - 1));
+      nextBtn.addEventListener('click', () => show(i + 1));
+
+      document.addEventListener('keydown', (e) => {
+        const tag = (e.target && e.target.tagName) || '';
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          show(i + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          show(i - 1);
+        } else if (e.key === 'Enter' && i === slides.length - 1) {
+          window.location.href = '/';
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

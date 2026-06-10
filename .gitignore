@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.playwright-cli/
+.DS_Store
+*.log
+.vite/
+.claude/
+
+# working notes, kept out of the public history
+CASE-STUDY.md
+CASE-STUDY-SKELETON.md
+loom-outline.md

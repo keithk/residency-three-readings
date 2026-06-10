@@ -1,0 +1,42 @@
+:root {
+  --paper:        oklch(0.972 0.008 75);
+  --paper-2:      oklch(0.946 0.012 75);
+  --paper-3:      oklch(0.915 0.018 75);
+  --paper-deep:   oklch(0.881 0.024 75);
+  --ink:          oklch(0.20 0.012 85);
+  --ink-soft:     oklch(0.42 0.012 85);
+  --ink-faint:    oklch(0.60 0.012 85);
+  --ink-ghost:    oklch(0.78 0.010 75);
+  --rule:         oklch(0.84 0.014 75);
+  --hairline:     oklch(0.90 0.012 75);
+
+  --stamp:        oklch(0.50 0.135 28);
+  --stamp-soft:   oklch(0.72 0.085 28);
+  --stamp-fade:   oklch(0.92 0.04 28);
+
+  --legal:        oklch(0.46 0.085 158);
+  --legal-soft:   oklch(0.92 0.035 158);
+  --legal-ink:    oklch(0.34 0.07 158);
+
+  --worker:       oklch(0.43 0.045 248);
+  --worker-soft:  oklch(0.92 0.020 248);
+  --worker-ink:   oklch(0.32 0.04 248);
+
+  --director:     oklch(0.52 0.085 78);
+  --director-soft:oklch(0.93 0.04 78);
+  --director-ink: oklch(0.38 0.075 78);
+
+  --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart:  cubic-bezier(0.25, 1, 0.5, 1);
+
+  --col-rail:   200px;
+  --col-body:   minmax(0, 70ch);
+  --col-margin: 280px;
+  --gap-col:    72px;
+
+  --pad-y: clamp(2rem, 4vw, 4rem);
+  --pad-x: clamp(1.25rem, 4vw, 3rem);
+}
