@@ -33,7 +33,7 @@ A good contested case has four properties:
 
 - Enough fact for the question to be answerable: a worker, reviewer, or underwriter could actually act on it. If the case body reads like a thought experiment, it isn't a case.
 - Enough ambiguity that no path is closed off: at least two interpretations are defensible from the facts as written. If one reading is obviously stronger to a domain expert, the case isn't contested.
-- Anchored in real regulatory, policy, or practice ambiguity, not invented for the example. The SNAP cases are synthetic in their facts, but the ambiguity in each case is drawn from real federal regulations, real state manual language, and real practitioner disagreement. Synthetic facts, real-shape ambiguity.
+- Anchored in real regulatory, policy, or practice ambiguity, not invented for the example. The SNAP cases are synthetic in their facts, but the ambiguity in each case is drawn from real federal regulations, real state manual language, and real practitioner disagreement.
 - The interpretation question is phrased the way a practitioner would phrase it, not the way a textbook would. "Is Jordan part of Maria's SNAP household for this application?" is a question a worker actually has to answer. "Does the regulation in 7 CFR 273.1(a) apply?" is the same question dressed up.
 
 One sentence on the case body's voice: case files read as documents, not as test prompts. The reader should be able to imagine an actual worker holding this paper. The SNAP cases include interview notes, household composition rosters, income amounts with dates, manual citations: the texture a real case file carries. The texture isn't decoration. It is what gives the personas something specific to disagree about.

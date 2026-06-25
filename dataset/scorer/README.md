@@ -2,7 +2,7 @@
 
 ## what this is
 
-A reference implementation of the three Three Readings evals (disaggregation, calibration, phrase-grounding) on contested-determination scenarios. Not a framework. Pure functions: parsed scenario in, parsed model output in, score result out. No model calling, no HTTP, no aggregation across scenarios. Read it, copy it, replace it.
+A reference implementation of the Three Readings evals (disaggregation, calibration, phrase-grounding) on contested-determination scenarios. Not a framework. Pure functions: parsed scenario in, parsed model output in, score result out. No model calling, no HTTP, no aggregation across scenarios. Read it, copy it, replace it.
 
 [`persona.ts`](./persona.ts) adds the three persona evals (`scorePersonaFidelity`, `scorePersonaSeparation`, `scorePersonaStability`) in the same style; those score the persona specs in [`personas/`](../personas/) rather than a model under test. Methodology and thresholds are documented in [`PERSONAS.md`](../PERSONAS.md).
 

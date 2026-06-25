@@ -1,5 +1,7 @@
 # measured results: persona calibration v1.0.0, spec ablation, baselines
 
+The three-arm ablation (cold / role / spec) produces one clear finding: bare role labels collapse the three readings toward the model's own answer (separation ratio 0.26), and full institutional specs recover 59 to 72 percent of the disagreement the cases carry, scaling with model tier. The cold-arm confidences, 65 to 78, are consistently above the honest distribution for these cases, which tops out at 38 to 50. Neither finding requires extreme overconfidence; 69 against a case whose honest distribution is 32/30/38 is the same category error, stated quietly.
+
 What this folder is: the measured side of [`PERSONAS.md`](../PERSONAS.md). Every number below is computed by [`harness/score-runs.ts`](../harness/score-runs.ts) from the raw receipts in [`raw/`](./raw/), each of which records the full prompts and raw model text for one run. `summary.json` is the machine-readable aggregation. Nothing here is asserted without a receipt.
 
 Run date: 2026-06-10. Persona specs: v1.0.0 (the first written-down versions; see the changelogs in [`personas/`](../personas/)). 255 runs, 255 usable, 0 errors.
@@ -22,7 +24,7 @@ Separation ratio is generated spread over recorded spread (1.0 = the three gener
 | spec | sonnet | **0.59**         | 1.9                              |
 | spec | opus   | **0.72**         | 2.2                              |
 
-Told a model only "you are a legal aid attorney" / "you are an eligibility worker" / "you are a SNAP director," the three readings collapse toward one: on most scenarios every role lands on the model's own cold-baseline answer, and the disagreement the case actually carries disappears (ratio 0.26, usually a single distinct call). The same model handed the full institutional specs recovers more than half of the recorded spread, and the recovery scales with model tier. The disagreement does not come from naming the role. It comes from the written accountability structure: who reviews this role's decisions, and which errors cost.
+Told only "you are a legal aid attorney" / "you are an eligibility worker" / "you are a SNAP director," the three readings collapse toward one: on most scenarios every role lands on the model's own cold-baseline answer, and the disagreement the case actually carries disappears (ratio 0.26, usually a single distinct call). The same model handed the full institutional specs recovers more than half of the recorded spread, and the recovery scales with model tier. The disagreement does not come from naming the role. It comes from the written accountability structure: who reviews this role's decisions, and which errors cost.
 
 This is the spec ablation's answer to "what does the spec add beyond the label": on these cases, most of the separation that exists at all.
 
@@ -102,4 +104,6 @@ bun harness/run.ts --arm spec --model claude-sonnet-4-6 --runs 3
 bun harness/score-runs.ts
 ```
 
-Swap `--model` for the other tiers, or `--runner api` with `ANTHROPIC_API_KEY` set. Receipts append to `raw/`; the scorer aggregates whatever is there.
+Swap `--model` for the other tiers, or `--runner api` with `ANTHROPIC_API_KEY` set.
+
+On what to expect: the arm-level patterns (role collapse, spec recovery scaling with tier) should reproduce. Exact percentages will vary. The published run used the `cli` runner, which does not lock temperature; `--runner api` runs at temperature 0 and will give tighter per-cell numbers. Model behavior also changes between API versions, so the run date above is the anchor. The receipts in `results/raw/` carry the full prompts and raw model text; diff your run against them to see where the numbers moved and by how much.
